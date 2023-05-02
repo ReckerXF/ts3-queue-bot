@@ -1,0 +1,35 @@
+[center][U][B][size=10][COLOR=lime]Queue Bot Information:[/COLOR][/B][/U][/center][list=1]
+[*]The bot subtracts from the total clients if a client is exempt from the count. (i.e. Fire, Dispatch, Listening)
+[*]The bot only exempts up to 8 Firefighters.
+[*]Active 10-1 channels or Priority 911 channels result in a 'freeze' of the queue. All 10-1 channels must be clear for the queue to move.
+[*]After queueing up for the server, you may go anywhere in the Teamspeak. Chill with friends or hang with Staff!
+[*]You will get poked prior to being moved.
+[*]You will be removed from queue if you get moved to AFK or you disconnect from the server. You will [u]not[/u] get your queue spot back if you rejoin after 5 minutes.
+[*]For any issues or concerns, please reach out to your Chain of Command. Do not contact Teamspeak Management directly.[/list]
+
+[center][U][B][size=10][COLOR=green]Queue Bot Commands:[/COLOR][/B][/U][/center][list=1]
+[*][b]!joinqueue <server #>[/b] - Joins the queue! [i](Example: !joinqueue X)[/i]
+[*][b]!leavequeue[/b] - Leaves the queue!
+[*][b]!queuelist <server #>[/b] - Lists everyone in the server queue! [i](Example: !queuelist X)[/i]
+[*][b]!queuepos[/b] - Gives the number you are in queue!
+[*][b]!pm[/b] - Opens a private message to the bot for commands!
+[*][b][color=lime]*NEW*[/color] !recover[/b] - Recover your queue position as long as you left/disconnected from queue under 5 minutes ago. (DO NOT rejoin queue before using this command. Use it as soon as you join the queue channel!)[/list]
+
+[center][U][B][size=10][COLOR=orange]Queue Bot Staff Commands:[/COLOR][/B][/U][/center][list=1]
+[*][b]!setqueue[/b] <uniqueID> <#> - Set someone's queue position. Person needs to be in a queue before running this command. [i](Example: !setqueue PJYZN4UcWKNgw4JpCNMe08Frvec= 1)[/i]
+[*][b]!queuekick[/b] <uniqueID> - Kick someone from the queue! [i](Example: !queuekick PJYZN4UcWKNgw4JpCNMe08Frvec=)[/i]
+[*][b]!forcequeue[/b] <#> - Manually process the queue by ignoring people in 10-1. [i](Example: !forcequeue 1)[/i]
+[*][b][color=red]*ADMIN*[/color] !nukequeue[/b] <#> - Nuke a server's queue. [i](Example: !nukequeue X)[/i]
+[*][b][color=red]*ADMIN*[/color] !messagequeue[/b] <#> <message> - Message everyone in a server's queue. [i](Example: !messagequeue X Queue Bot restarting!)[/i]
+[*][b][color=red]*ADMIN*[/color] !reload[/b] <command> - Reload a command! [i](Example: !reload setqueue)[/i][/list]
+
+[center][U][B][size=10][COLOR=#aa0000]Queue Channel Guidelines:[/COLOR][/B][/U][/center][list=1]
+[*]Members are free to talk amongst each other anywhere in the Teamspeak while in queue.
+[*]One LEO or Fire Supervisor (Staff+) may skip the queue and join the server directly if there are currently no active Fire or LEO supervisors in the [b]patrol channel[/b].
+[*]If you were asked by Fire Staff+ or Administration to leave the patrol to free up fire slots, you may return to the queue regardless of the number of people already there and you skip to the first spot(s) in line for the queue.
+[*]If your game and/or teamspeak crashes, you have 5 minutes to join 10-1 before you will be required to rejoin the queue.
+[*]Members may not patrol or be in trainings while in queue.
+[*]Only Fire SIT may move FF members into patrol. Contact one to get moved!
+[*]Do not exploit the Queue Bot in any fashion. Report all bugs to your Chain of Command.[/list]
+
+[center][size=11][color=red]Anyone found abusing any of these guidelines will be subject to disciplinary action.[/size][/center]
