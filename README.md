@@ -18,7 +18,7 @@ If you wish to make *any* edits, you must have Typescript installed via npm. See
 2. Install node.js v18 if you haven't.
 3. Install the Typescript package via npm. Run: ``npm install -g typescript``.
 4. Make any desired edits to the codebase or to the ``Config.ts`` file.
-5. Create a .env file and do ``ENV=production`` or ``ENV=develop`` depending on the config area you want to use. (i.e. ENV=develop will pull all config values from the develop area of the config.
+5. Create a .env file in the same directory that you cloned to (also the same directory as Config.ts) and do ``ENV=production`` or ``ENV=develop`` depending on the config area you want to use. (i.e. ENV=develop will pull all config values from the develop area of the config.
 6. In a Linux or WSL terminal while in the directory of the repo, run ``npx tsc --build``. This will compile the code into the ``dist/`` folder.
 7. Run with ``npm start`` or ``node dist/index.js``.
 	> You can use PM2 to automate the script!
