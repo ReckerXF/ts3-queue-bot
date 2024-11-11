@@ -1,4 +1,3 @@
-import { TeamSpeak } from "ts3-nodejs-library";
 import Client from "../classes/Client";
 import Utils from "../classes/Utils";
 import { QueuedChannel } from "../types/Config.type";

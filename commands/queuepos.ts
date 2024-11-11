@@ -1,4 +1,4 @@
-import { TextMessageEvent, TextMessageTargetMode } from "ts3-nodejs-library";
+import { TextMessageEvent } from "ts3-nodejs-library";
 import Client from "../classes/Client";
 import Command, { CommandConfig } from "../classes/Command";
 import Utils from "../classes/Utils";

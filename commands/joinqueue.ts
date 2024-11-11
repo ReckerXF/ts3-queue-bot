@@ -18,17 +18,17 @@ class JoinQueue extends Command {
 
         let channelNum = args[0].toLowerCase();
 
-        if (!client._config.botOptions.queuedChannels.map(c => c.queueName.toLowerCase()).includes(channelNum))
+        if (!client._config.botOptions.queuedChannels.map(c => c.channel.toLowerCase()).includes(channelNum))
             return Utils.sendMessage(message, `[color=red][Error][/color] Invalid server number. Please follow the format: ${client._config.botOptions.prefix}joinqueue <server number>. [b]Example:[/b] ${client._config.botOptions.prefix}joinqueue X`);
 
         if (await QueueHandler.isClientInQueue(message.invoker.clid))
             return Utils.sendMessage(message, `[color=red][Error][/color] You are already in the queue.`);
         
         let queue = await QueueHandler.getQueue(channelNum);
-        let c = await client.getChannelById(client._config.botOptions.queuedChannels.find(c => c.queueName.toLowerCase() === channelNum)?.channel as string) as TeamSpeakChannel;
+        let c = await client.getChannelById(client._config.botOptions.queuedChannels.find(c => c.channel.toLowerCase() === channelNum)?.channel as string) as TeamSpeakChannel;
 
-        if (c.totalClients < c.maxclients && await Utils.channelsClear(client, client._config.botOptions.queuedChannels.find(c => c.queueName.toLowerCase() == channelNum)?.excludedSubChannels as string[]) == 0 && queue.length == 0) {
-            message.invoker.move(client._config.botOptions.queuedChannels.find(c => c.queueName.toLowerCase() == channelNum)?.channel as string);
+        if (c.totalClients < c.maxclients && await Utils.channelsClear(client, client._config.botOptions.queuedChannels.find(c => c.channel.toLowerCase() == channelNum)?.excludedSubChannels as string[]) == 0 && queue.length == 0) {
+            message.invoker.move(client._config.botOptions.queuedChannels.find(c => c.channel.toLowerCase() == channelNum)?.channel as string);
 
             Utils.sendMessage(message, `[b]${message.invoker.nickname}[/b], you are being automatically moved into [b]${c.name}[/b] as there are open spots. Have fun!`);
         } else QueueHandler.addClientToQueue(message.invoker.nickname, message.invoker.clid, channelNum);

@@ -1,9 +1,6 @@
 import Client from "./Client";
-import { TeamSpeak, TeamSpeakChannel, TextMessageEvent, TextMessageTargetMode } from "ts3-nodejs-library";
-import moment from "moment";
+import { TeamSpeakChannel, TextMessageEvent, TextMessageTargetMode } from "ts3-nodejs-library";
 import QueueHandler from "../handlers/QueueHandler";
-import { readFile } from "fs";
-import Logger from "./Logger";
 
 /**
  * Utilities - Contains several utilitarian methods.
@@ -49,7 +46,7 @@ class Utils {
             if (!mappedQueue || !queueList)
                 mappedQueue = "No clients are queued for this channel!";
 
-            let currentChannelDesc = (await this._client.channelInfo(this._client._config.botOptions.queueChannelID)).channelDescription;
+            let currentChannelDesc = (await this._client.channelInfo(this._client._config.botOptions.queueChannelID)).channelDescription || "";
             let currentChannelName = (await this._client.channelInfo(this._client._config.botOptions.queueChannelID)).channelName;
             this._client.channelEdit(queue.channel, {channelName: `${currentChannelName} | Queue: ${(await QueueHandler.getQueue(queue.queueName)).length}`, channelDescription: `[size=10][color=lightblue][b][Queue][/b][/color][/size]\n${mappedQueue}\n${currentChannelDesc}`});
         }

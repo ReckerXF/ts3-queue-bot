@@ -11,7 +11,6 @@ import EventHandler from "../handlers/EventHandler";
 import CommandHandler from "../handlers/CommandHandler";
 import QueueHandler from "../handlers/QueueHandler";
 import Utils from "./Utils";
-import Logger from "./Logger";
 
 class Client extends TeamSpeak {
     public _config: Config;
