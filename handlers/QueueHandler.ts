@@ -25,7 +25,7 @@ class QueueHandler {
     }
 
     static async addClientToQueue(clientNickname: string, clientId: string, queueName: string, recoveryMode: boolean = false) {
-        let queuedMembers: QueueMember[] = JSON.parse(await this._client._redis.get(`queue:${queueName.toLowerCase()}`) ?? "") || [];
+        let queuedMembers: QueueMember[] = JSON.parse(await this._client._redis.get(`queue:${queueName.toLowerCase()}`) ?? "[]");
 
         let queueMember = new QueueMember(clientNickname, clientId, this._client._config.botOptions.queuedChannels.filter((c: { queueName: string; }) => c.queueName == queueName.toLowerCase())[0]);
 
@@ -52,7 +52,7 @@ class QueueHandler {
     static async removeClientFromQueue(clientId: string, isKicked: boolean = false, databaseId?: string) {
         let queueIndex: { [key: string]: string; } = JSON.parse(await this._client._redis.get("queuedClients") ?? "[]");
 
-        let q: QueueMember[] = JSON.parse(await this._client._redis.get(`queue:${queueIndex[clientId]}`) ?? "[]") || [];
+        let q: QueueMember[] = JSON.parse(await this._client._redis.get(`queue:${queueIndex[clientId]}`) ?? "[]");
 
         let newQueue = q.filter(m => (m?.clientId ?? "") !== clientId);
 
@@ -72,32 +72,32 @@ class QueueHandler {
     }
     
     static async isClientInQueue(clientId: string) {
-        let queueIndex: { [key: string]: string; } = JSON.parse(await this._client._redis.get("queuedClients") ?? "[]") || [];
+        let queueIndex: { [key: string]: string; } = JSON.parse(await this._client._redis.get("queuedClients") ?? "[]");
 
         return Object.keys(queueIndex).includes(clientId);
     }
 
     static async getClientQueue(clientId: string) {
-        let queueIndex: { [key: string]: string; } = JSON.parse(await this._client._redis.get("queuedClients") ?? "") || [];
+        let queueIndex: { [key: string]: string; } = JSON.parse(await this._client._redis.get("queuedClients") ?? "[]");
 
-        let q: QueueMember[] = JSON.parse(await this._client._redis.get(`queue:${queueIndex[clientId]}`) ?? "") || [];
+        let q: QueueMember[] = JSON.parse(await this._client._redis.get(`queue:${queueIndex[clientId]}`) ?? "[]");
 
         return q.filter(m => m.clientId == clientId)[0] ?? false;
     }
 
     static async getClientQueuePosition(clientId: string) {
 
-        let queueIndex: { [key: string]: string; } = JSON.parse(await this._client._redis.get("queuedClients") ?? "") || [];
+        let queueIndex: { [key: string]: string; } = JSON.parse(await this._client._redis.get("queuedClients") ?? "[]");
 
-        let q: QueueMember[] = JSON.parse(await this._client._redis.get(`queue:${queueIndex[clientId]}`) ?? "") || [];
+        let q: QueueMember[] = JSON.parse(await this._client._redis.get(`queue:${queueIndex[clientId]}`) ?? "[]");
 
         return q.findIndex(c => (c.clientId ?? "") == clientId) + 1;
     }
 
     static async setClientQueuePosition(clientId: string, position: number, recoveryMode: boolean = false) { 
-        let queueIndex: { [key: string]: string; } = JSON.parse(await this._client._redis.get("queuedClients") ?? "") || [];
+        let queueIndex: { [key: string]: string; } = JSON.parse(await this._client._redis.get("queuedClients") ?? "[]");
 
-        let q: QueueMember[] = JSON.parse(await this._client._redis.get(`queue:${queueIndex[clientId]}`) ?? "") || [];
+        let q: QueueMember[] = JSON.parse(await this._client._redis.get(`queue:${queueIndex[clientId]}`) ?? "[]");
 
         let queueEntry = q.filter(client => client.clientId == clientId)[0];
 
@@ -120,20 +120,20 @@ class QueueHandler {
     }
 
     static async getClientInQueuePosition(serverNum: any, position = 0) {
-        let q: QueueMember[] = JSON.parse(await this._client._redis.get(`queue:${serverNum}`) ?? "") || [];
+        let q: QueueMember[] = JSON.parse(await this._client._redis.get(`queue:${serverNum}`) ?? "[]");
 
         return q[position];
     }
 
     static async getQueue(serverNum: string)
     {
-        let q: QueueMember[] = JSON.parse(await this._client._redis.get(`queue:${serverNum}`) ?? "") || [];
+        let q: QueueMember[] = JSON.parse(await this._client._redis.get(`queue:${serverNum}`) ?? "[]");
  
         return q;
     }
 
     static async nukeQueue(serverNum: string) {
-        let q: QueueMember[] = JSON.parse(await this._client._redis.get(`queue:${serverNum}`) ?? "") || [];
+        let q: QueueMember[] = JSON.parse(await this._client._redis.get(`queue:${serverNum}`) ?? "[]");
 
         for await (const client of q) {
             this.removeClientFromQueue(client.clientId);
@@ -145,7 +145,7 @@ class QueueHandler {
     }
 
     static async notifyQueueOfPositionChange(serverNum: string, notifyType: number = 0) {
-        let q: QueueMember[] = JSON.parse(await this._client._redis.get(`server:${serverNum}`) ?? "") || [];
+        let q: QueueMember[] = JSON.parse(await this._client._redis.get(`server:${serverNum}`) ?? "[]");
 
         for (let i = 0; i < q.length; i++) {
             if (i == await this.getClientQueuePosition(q[i].clientId))
@@ -162,7 +162,7 @@ class QueueHandler {
     }
 
     static async isClientRecoverable(databaseId: string) {
-        let recoveredClient = JSON.parse(await this._client._redis.get(`recoveryData:${databaseId}`) ?? "[]") || [];
+        let recoveredClient = JSON.parse(await this._client._redis.get(`recoveryData:${databaseId}`) ?? "[]");
 
         if (recoveredClient == "") return false;
 
@@ -170,7 +170,7 @@ class QueueHandler {
     }
 
     static async recoverClient(databaseId: string) {
-        let recoveredClient = JSON.parse(await this._client._redis.get(`recoveryData:${databaseId}`) ?? "[]") || [];
+        let recoveredClient = JSON.parse(await this._client._redis.get(`recoveryData:${databaseId}`) ?? "[]");
 
         let newClient = await this._client.getClientByDbid(databaseId);
 

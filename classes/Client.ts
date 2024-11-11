@@ -38,12 +38,12 @@ class Client extends TeamSpeak {
 
         {
             if (!this._redis.exists("queuedClients") || this._config.env == "dev")
-                this._redis.set("queuedClients", "{}");
+                this._redis.set("queuedClients", JSON.stringify({}));
 
             let serverChannels = this._config.botOptions.queuedChannels.map(c => `server:${c.queueName}`);
             for (let serverChannel of serverChannels) {
                 if (!this._redis.exists(serverChannel) || this._config.env == "dev")
-                    this._redis.set(serverChannel, "[]");
+                    this._redis.set(serverChannel, JSON.stringify([]));
             }
         }
 

@@ -46,7 +46,7 @@ class Utils {
                 return `[b]${index + 1}:[/b] ${nickname} ${entry.comments ?? ""}\n`
             }))).join().replace(/,/g, "");
 
-            if (!mappedQueue)
+            if (!mappedQueue || !queueList)
                 mappedQueue = "No clients are queued for this channel!";
 
             let currentChannelDesc = (await this._client.channelInfo(this._client._config.botOptions.queueChannelID)).channelDescription;
