@@ -4,6 +4,9 @@ The Queue Bot was originally developed by myself on Javascript for a FiveM gamin
 
 During production, this bot served hundreds of Redis queries daily, managing up to 6 channel queues for a community of over 1,000 individuals.
 
+## Why Redis?
+Redis was selected to be used as a database due to its fast, in-memory storage capabilities and the fact that it functions as a key-value pair database - making it super easy to store and retrieve sets of data without the traditional longer waiting times of relational databases and without requiring larger servers to dedicate resources to it. You can read more about Redis [here](https://redis.io/about/).
+
 ## Requirements
 1. node.js v18
 2. A redis7 server
@@ -22,6 +25,7 @@ During production, this bot served hundreds of Redis queries daily, managing up 
 11. Make any desired edits to the codebase or to the ``Config.ts`` file.
 12. Run with ``npm start`` or ``node dist/index.js``.
 	> You can use PM2 to automate the script!
+
 ## Screenshots
 ![img](https://i.gyazo.com/31c0169684a6cb709c71017c034f7349.png)
 ![img](https://i.gyazo.com/f2898b85cf6bbd2cf7411c18fe545e82.png)
