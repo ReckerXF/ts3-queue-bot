@@ -3,7 +3,7 @@ import { ConfigImport } from "./types/Config.type";
 const Config: ConfigImport = {
     production: {
         env: "production",
-        connectionOptions: {
+        connectionOptions: { // TS3 ServerQuery Login
             host: "ipaddress",
             queryport: 10011,
             serverport: 9970,
@@ -13,7 +13,7 @@ const Config: ConfigImport = {
         },
         redis: {
             connectionString: "redis://default:P@55w0rd@database:port",
-            recoveryExpireTime: 300
+            recoveryExpireTime: 300  // The time in seconds that the bot will wait before deleting users recovery data. (i.e. After 5 minutes people won't be able to use !recover if their TS crashed)
         },
         botOptions: {
             prefix: "!",
@@ -22,7 +22,7 @@ const Config: ConfigImport = {
                     queueName: "1",
                     parentChannel: "1614", // The direct parent of the channel users are queuing for.
                     channel: "12510", // The channel the users will be queueing for.
-                    excludedSubChannels: ["1613", "1619", "2111", "11501", "23933"], // Subchannels the bot will not look into when seeing if the channel is able to be joined.
+                    excludedSubChannels: ["1613", "1619", "2111", "11501", "23933"], // Subchannels of the queue channel the bot will not look into when seeing if the channel is able to be joined.
                     freezeQueueChannels: [ // Channels that will hold up the queue if there are people in them. (NOT the queued channel)
                         "1234",
                         "1234"
@@ -50,7 +50,7 @@ const Config: ConfigImport = {
     },
     dev: {
         env: "dev",
-        connectionOptions: {
+        connectionOptions: { // TS3 ServerQuery Login
             host: "ipaddress",
             queryport: 10011,
             serverport: 9970,
@@ -60,7 +60,7 @@ const Config: ConfigImport = {
         },
         redis: {
             connectionString: "redis://default:P@55w0rd@database:port",
-            recoveryExpireTime: 300
+            recoveryExpireTime: 300  // The time in seconds that the bot will wait before deleting users recovery data. (i.e. After 5 minutes people won't be able to use !recover if their TS crashed)
         },
         botOptions: {
             prefix: "!",
@@ -69,7 +69,7 @@ const Config: ConfigImport = {
                     queueName: "1",
                     parentChannel: "1614", // The direct parent of the channel users are queuing for.
                     channel: "12510", // The channel the users will be queueing for.
-                    excludedSubChannels: ["1613", "1619", "2111", "11501", "23933"], // Subchannels the bot will not look into when seeing if the channel is able to be joined.
+                    excludedSubChannels: ["1613", "1619", "2111", "11501", "23933"], // Subchannels of the queue channel the bot will not look into when seeing if the channel is able to be joined.
                     freezeQueueChannels: [ // Channels that will hold up the queue if there are people in them. (NOT the queued channel)
                         "1234",
                         "1234"
