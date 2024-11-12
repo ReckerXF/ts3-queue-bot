@@ -21,7 +21,7 @@ Redis was selected to be used as a database due to its fast, in-memory storage c
 7. Create a copy of the TS3 Server Admin group you have. In this copied group, disable ``b_channel_join_ignore_maxclients``.
 8. Create a new TS3 Identity (Tools > Identities). Join the server on this new identity and give it your copied server admin role (the one you just made). Also, create a ServerQuery login. Use these credentials in the config.ts.
 9. Set up a "Queue Channel". This will be the channel the bot connects to and the channel people can join to run commands.
-10. Set up the channels for the various queues. In the channel that people will queue for, set your max client to whatever you desire and the max family clients to ``0``. Once the maximum amount of people are in the channel, they can use the queue bot to queue for the channel.
+10. Set up the channels for the various queues. In the channel that people will queue for, set your max client to whatever you desire and the max family clients to ``unlimited``. Once the maximum amount of people are in the channel, they can use the queue bot to queue for the channel.
 11. Make any desired edits to the codebase or to the ``Config.ts`` file.
 12. Run with ``npm start`` or ``node dist/index.js``.
 	> You can use PM2 to automate the script!
