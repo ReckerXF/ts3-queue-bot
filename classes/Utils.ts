@@ -46,7 +46,7 @@ class Utils {
             if (!mappedQueue || !queueList)
                 mappedQueue = "No clients are queued for this channel!";
 
-            let currentChannelDesc = (await this._client.channelInfo(this._client._config.botOptions.queueChannelID)).channelDescription || "";
+            let currentChannelDesc = (await this._client.channelInfo(queue.channel)).channelDescription || "";
             let currentChannelName = (await this._client.channelInfo(this._client._config.botOptions.queueChannelID)).channelName;
             this._client.channelEdit(queue.channel, {channelName: `${currentChannelName} | Queue: ${(await QueueHandler.getQueue(queue.queueName)).length}`, channelDescription: `[size=10][color=lightblue][b][Queue][/b][/color][/size]\n${mappedQueue}\n${currentChannelDesc}`});
         }
