@@ -45,9 +45,19 @@ class Utils {
 
             if (!mappedQueue || !queueList)
                 mappedQueue = "No clients are queued for this channel!";
+
+            let currentChannelName = (await this._client.channelInfo(queue.channel)).channelName;
             
-            let currentChannelName = (await this._client.channelInfo(this._client._config.botOptions.queueChannelID)).channelName;
-            this._client.channelEdit(queue.channel, {channelName: `${currentChannelName} | Queue: ${(await QueueHandler.getQueue(queue.queueName)).length}`, channelDescription: `[size=10][color=lightblue][b][Queue][/b][/color][/size]\n${mappedQueue}`});
+            if (currentChannelName.includes("|")) {
+                currentChannelName = currentChannelName.split("|")[0].trim() + ` | Queue: ${(await QueueHandler.getQueue(queue.queueName)).length}`;
+            } else {
+                currentChannelName = currentChannelName.trim() + ` | Queue: ${(await QueueHandler.getQueue(queue.queueName)).length}`;
+            }
+
+            this._client.channelEdit(queue.channel, {channelName: currentChannelName, channelDescription: `[size=10][color=lightblue][b][Queue][/b][/color][/size]\n${mappedQueue}`}).catch(reason => {
+                if (reason.msg == "channel name is already in use")
+                    return; // Ignore this error since the channel more than likely doesn't need to update it's name.
+            });
         }
     }
 
