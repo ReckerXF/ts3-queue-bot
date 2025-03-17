@@ -1,6 +1,7 @@
 import Client from "./Client";
 import { TeamSpeakChannel, TextMessageEvent, TextMessageTargetMode } from "ts3-nodejs-library";
 import QueueHandler from "../handlers/QueueHandler";
+import Logger from "./Logger";
 
 /**
  * Utilities - Contains several utilitarian methods.
@@ -48,9 +49,14 @@ class Utils {
 
             let currentChannelName = (await this._client.channelInfo(queue.channel)).channelName;
             
-            if (currentChannelName.includes("|")) {
+            if (currentChannelName.includes("Queue:")) {
                 currentChannelName = currentChannelName.split("|")[0].trim() + ` | Queue: ${(await QueueHandler.getQueue(queue.queueName)).length}`;
             } else {
+                if (currentChannelName.length > 26) { // Allows for " Queue: 000" to be added to the end of the channel name. Up to 3-numbered queues.
+                    Logger.run("warn", `Could not update the channel for channel ID ${queue.channel} due to excessive name length. Is your channel name more than 26 characters?`);
+                    return;
+                }
+
                 currentChannelName = currentChannelName.trim() + ` | Queue: ${(await QueueHandler.getQueue(queue.queueName)).length}`;
             }
 
