@@ -53,7 +53,7 @@ class Utils {
                 currentChannelName = currentChannelName.split("|")[0].trim() + ` | Queue: ${(await QueueHandler.getQueue(queue.queueName)).length}`;
             } else {
                 if (currentChannelName.length > 26) { // Allows for " Queue: 000" to be added to the end of the channel name. Up to 3-numbered queues.
-                    Logger.run("warn", `Could not update the channel for channel ID ${queue.channel} due to excessive name length. Is your channel name more than 26 characters?`);
+                    Logger.run("error", `Could not update the channel for channel ID 8 due to excessive name length. Is your channel name more than 26 characters? The bot will be unable to update the channel name/description until this is fixed.`);
                     return;
                 }
 

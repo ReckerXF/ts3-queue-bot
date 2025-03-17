@@ -15,7 +15,7 @@ class LeaveQueue extends Command {
         let queueName = await QueueHandler.getClientQueueName(message.invoker.clid);
 
         await QueueHandler.removeClientFromQueue(message.invoker.clid, false, message.invoker.databaseId);
-        Utils.sendMessage(message, `[b]${message.invoker.nickname}[/b], you have been removed from the queue.[/color]`);
+        Utils.sendMessage(message, `[b]${message.invoker.nickname}[/b], you have been removed from the queue.`);
 
         QueueHandler.notifyQueueOfPositionChange(queueName);
     }
