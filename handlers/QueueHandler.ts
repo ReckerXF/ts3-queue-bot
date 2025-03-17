@@ -24,7 +24,8 @@ class QueueHandler {
     }
 
     static async addClientToQueue(clientNickname: string, clientId: string, queueName: string, recoveryMode: boolean = false) {
-        let queuedMembers: QueueMember[] = JSON.parse(await this._client._redis.get(`queue:${queueName.toLowerCase()}`) ?? "[]");
+        let rawData = await this._client._redis.get(`queue:${queueName.toLowerCase()}`);
+        let queuedMembers: QueueMember[] = JSON.parse(rawData && rawData.trim() !== "" ? rawData : "[]");
 
         let queueMember = new QueueMember(clientNickname, clientId, this._client._config.botOptions.queuedChannels.filter((c: { queueName: string; }) => c.queueName == queueName.toLowerCase())[0]);
 
