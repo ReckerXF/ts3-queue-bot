@@ -27,6 +27,17 @@ Redis was selected to be used as a database due to its fast, in-memory storage c
 12. Run with ``npm start`` or ``node dist/index.js``.
 	> You can use PM2 to automate the script!
 
+## Known Issue
+The Teamspeak 3 serverquery is known to block a certain amount of commands in a specified time. You may need to increase the flood limit.
+
+To do this, login to your serverquery and run these commands:
+
+``instanceedit serverinstance_serverquery_flood_commands=50``
+
+``instanceedit serverinstance_serverquery_flood_time=3``
+
+Feel free to change the numbers as needed.
+
 ## Screenshots
 ![img](https://i.gyazo.com/31c0169684a6cb709c71017c034f7349.png)
 ![img](https://i.gyazo.com/f2898b85cf6bbd2cf7411c18fe545e82.png)
