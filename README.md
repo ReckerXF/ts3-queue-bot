@@ -16,6 +16,7 @@ Redis was selected to be used as a database due to its fast, in-memory storage c
 1. Clone the repo to your desired system.
 2. Install node.js v18 if you haven't.
 3. Install the Typescript package via npm. Run: ``npm install -g typescript``.
+4. Install all node packages. Run ``npm install`` in the bot's directory.
 5. Create a .env file in the same directory that you cloned to (also the same directory as Config.ts) and do ``ENV=production`` or ``ENV=dev`` depending on the config area you want to use. (i.e. ENV=develop will pull all config values from the develop area of the config.
 6. In a Linux or WSL terminal while in the directory of the repo, run ``npx tsc --build``. This will compile the code into the ``dist/`` folder.
 7. Create a copy of the TS3 Server Admin group you have. In this copied group, disable ``b_channel_join_ignore_maxclients``.
