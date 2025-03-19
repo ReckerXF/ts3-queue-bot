@@ -174,7 +174,7 @@ class QueueHandler {
 
         let newClient = await this._client.getClientByDbid(databaseId);
 
-        await this.addClientToQueue(recoveredClient.clientNickname, newClient!.clid, recoveredClient.server.name, true);
+        await this.addClientToQueue(recoveredClient.clientNickname, newClient!.clid, recoveredClient.queue.queueName, true);
         await this.setClientQueuePosition(newClient!.clid, recoveredClient.position, true);
 
         let deleteData = await this._client._redis.del(`recoveryData:${databaseId}`);

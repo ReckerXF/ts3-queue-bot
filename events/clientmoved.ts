@@ -59,7 +59,7 @@ class ClientMoved extends ClientEvent<"clientmoved"> {
 
                     let ch = await client.getChannelById(first.queue.channel) as TeamSpeakChannel;
 
-                    if (await QueueHandler.isClientInQueue(c.clid)) {
+                    if ((ch.totalClients < ch.maxclients) &&await QueueHandler.isClientInQueue(c.clid)) {
                         if (this.processed[c.clid] && this.processed[c.clid] !== null && Math.round(Math.abs(new Date().getUTCMilliseconds() - (this.processed[c.clid] as Date).getUTCMilliseconds()) / 1000) <= 5) return;
                         this.processed[c.clid] = new Date();
                         client.clientPoke(c.clid, `You are about to be moved into [b]${ch.name}[/b]. Standby!`);
