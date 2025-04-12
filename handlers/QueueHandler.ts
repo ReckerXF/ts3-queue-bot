@@ -1,6 +1,7 @@
 import Client from "../classes/Client";
 import Utils from "../classes/Utils";
 import { QueuedChannel } from "../types/Config.type";
+import { TeamSpeakClient, TeamSpeakChannel, TextMessageEvent } from "ts3-nodejs-library";
 
 class QueueMember {
     clientNickname: string;
@@ -22,6 +23,8 @@ class QueueHandler {
     static init(client: Client) {
         this._client = client;
     }
+
+    static processed: {[key: string]: Date | null} = {};
 
     static async addClientToQueue(clientNickname: string, clientId: string, queueName: string, recoveryMode: boolean = false) {
         let rawData = await this._client._redis.get(`queue:${queueName.toLowerCase()}`);
@@ -182,6 +185,63 @@ class QueueHandler {
         setTimeout(async function() {
             deleteData;
         }, 3000);
+    }
+
+    static async processQueue(client: Client, name: string, position: number = 0, message?: TextMessageEvent, ) {
+        let first = await QueueHandler.getClientInQueuePosition(name, position);
+
+        if (first) {
+            let c = await client.getClientById(first.clientId) as TeamSpeakClient;
+
+            if (!c || c == null)
+                await QueueHandler.removeClientFromQueue(first.clientId);
+
+            let channelsCleared = false;
+
+            if (await Utils.channelsClear(client, client._config.botOptions.queuedChannels.filter(c => c.queueName == name)[0].freezeQueueChannels) !== 0) {
+                if (message) {
+                    channelsCleared = true;
+                    Utils.sendMessage(message, `[color=green]Successfully forced Queue ${name.toUpperCase()} to move![/color]`);
+                }
+            } else {
+                channelsCleared = true;
+
+                if (message)
+                    Utils.sendMessage(message, `[color=red][Error][/color] Unable to move the queue! This command is only to be used when users are in the freeze channels and need to be skipped over!`);
+            }
+
+            if (c && channelsCleared) {
+                let channelId = (await client.getChannelById(c.cid))?.cid;
+                if (!client._config.botOptions.skippedChannels.some(r => channelId == r)) {
+
+                    let ch = await client.getChannelById(first.queue.channel) as TeamSpeakChannel;
+
+                    if ((ch.totalClients < ch.maxclients) && await QueueHandler.isClientInQueue(c.clid)) {
+                        if (this.processed[c.clid] && this.processed[c.clid] !== null && Math.round(Math.abs(new Date().getUTCMilliseconds() - (this.processed[c.clid] as Date).getUTCMilliseconds()) / 1000) <= 5) return;
+                        this.processed[c.clid] = new Date();
+
+                        client.clientPoke(c.clid, `You are about to be moved into [b]${ch.name}[/b]. Standby!`);
+
+                        setTimeout(async () => {
+                            let queueName = await QueueHandler.getClientQueueName(c.clid);
+                            await QueueHandler.removeClientFromQueue(c.clid);
+                            QueueHandler.notifyQueueOfPositionChange(queueName);
+
+                            await c.move(first.queue.channel);
+                            this.processed[c.clid] = null;
+
+                        }, 5000);
+                    }
+
+                } else {
+                    this.processQueue(client, name, position + 1);
+                }
+            } else {
+                setTimeout(() => {
+                    this.processQueue(client, name);
+                }, 10000);
+            }
+        }
     }
 }
 

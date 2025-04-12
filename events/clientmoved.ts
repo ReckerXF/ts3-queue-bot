@@ -38,53 +38,8 @@ class ClientMoved extends ClientEvent<"clientmoved"> {
 
         // Handle person leaving queueName
         for (let { queueName } of client._config.botOptions.queuedChannels) {
-            await this.handleFirstPositionInQueue(client, queueName);
+            await QueueHandler.processQueue(client, queueName);
         }
-        
-    }
-
-    private async handleFirstPositionInQueue(client: Client, name: string, position: number = 0) {
-        let first = await QueueHandler.getClientInQueuePosition(name, position);
-
-        if (first) {
-            let c = await client.getClientById(first.clientId) as TeamSpeakClient;
-
-            if (!c || c == null)
-                await QueueHandler.removeClientFromQueue(first.clientId);
-
-            // Check if the excluded channels have anyone in them
-            if (c && await Utils.channelsClear(client, client._config.botOptions.queuedChannels.filter(c => c.queueName == name)[0].freezeQueueChannels) == 0) {
-                let chName = (await client.getChannelById(c.cid))?.name.toLowerCase() as string;
-                if (!["staff room", "senior staff", "administration", "interview room", "AFK"].some(r => chName.includes(r))) {
-
-                    let ch = await client.getChannelById(first.queue.channel) as TeamSpeakChannel;
-
-                    if ((ch.totalClients < ch.maxclients) &&await QueueHandler.isClientInQueue(c.clid)) {
-                        if (this.processed[c.clid] && this.processed[c.clid] !== null && Math.round(Math.abs(new Date().getUTCMilliseconds() - (this.processed[c.clid] as Date).getUTCMilliseconds()) / 1000) <= 5) return;
-                        this.processed[c.clid] = new Date();
-                        client.clientPoke(c.clid, `You are about to be moved into [b]${ch.name}[/b]. Standby!`);
-
-                        setTimeout(async () => {
-                            let queueName = await QueueHandler.getClientQueueName(c.clid);
-                            await QueueHandler.removeClientFromQueue(c.clid);
-                            QueueHandler.notifyQueueOfPositionChange(queueName);
-
-                            await c.move(first.queue.channel);
-                            this.processed[c.clid] = null;
-
-                        }, 5000);
-                    }
-
-                } else {
-                    this.handleFirstPositionInQueue(client, name, position + 1);
-                }
-            } else {
-                setTimeout(() => {
-                    this.handleFirstPositionInQueue(client, name);
-                }, 10000);
-            }
-        }
-
     }
 }
 

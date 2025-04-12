@@ -27,9 +27,12 @@ class JoinQueue extends Command {
         let queue = await QueueHandler.getQueue(channelNum);
         let c = await client.getChannelById(client._config.botOptions.queuedChannels.find(c => c.queueName.toLowerCase() === channelNum)?.channel as string) as TeamSpeakChannel;
 
+        let excludedSubsClear = await Utils.channelsClear(client, client._config.botOptions.queuedChannels.find(c => c.queueName.toLowerCase() == channelNum)?.excludedSubChannels as string[]) == 0;
+        let freezeChanClear = await Utils.channelsClear(client, client._config.botOptions.queuedChannels.find(c => c.queueName.toLowerCase() == channelNum)?.freezeQueueChannels as string[]) == 0;
+
         try
         {
-            if (c.totalClients < c.maxclients && await Utils.channelsClear(client, client._config.botOptions.queuedChannels.find(c => c.queueName.toLowerCase() == channelNum)?.excludedSubChannels as string[]) == 0 && queue.length == 0) {
+            if (c.totalClients < c.maxclients && excludedSubsClear && freezeChanClear && queue.length == 0) {
                 message.invoker.move(client._config.botOptions.queuedChannels.find(c => c.queueName.toLowerCase() == channelNum)?.channel as string);
     
                 Utils.sendMessage(message, `[b]${message.invoker.nickname}[/b], you are being automatically moved into [b]${c.name}[/b] as there are open spots. Have fun!`);
