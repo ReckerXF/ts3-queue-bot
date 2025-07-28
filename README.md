@@ -1,6 +1,6 @@
 # TS3 Queue Bot
 
-The Queue Bot was originally developed by myself on Javascript for a FiveM gaming community with the purpose of making it so users could queue to join a server's radio traffic channel - as frequently said channel would be full. After a month or so post release, the bot was ported over to Typescript as the bot demanded more modularity and a more established base structure. There's also the added bonus that I've never worked with Typescript prior to this, so a learning experience was a bonus.
+The Queue Bot was originally developed by myself on Javascript for a FiveM gaming community with the purpose of making it so users could queue to join a server's radio traffic channel - as frequently said channel would be full. After a month or so post release, the bot was ported over to Typescript as the bot demanded more modularity and a more established base structure. I've never worked with Typescript prior to this, so a learning experience was a bonus.
 
 During production, this bot served hundreds of Redis queries daily, managing up to 6 channel queues for a community of over 1,000 individuals.
 
